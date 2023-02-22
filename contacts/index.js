@@ -33,7 +33,6 @@ class ContactsFileHandler {
     return value;
   }
 
-
   async removeContact(contactId) {
     const normalizeData = await this.listContacts();
     const stringContactId = String(contactId);
