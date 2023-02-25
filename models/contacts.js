@@ -4,7 +4,12 @@ const file = new ContactsFileHandler(contactsPath);
 const validateContacts = require('../middleWares');
 
 const listContacts = async (req, res, next) => {
- 
+  const contacts = await file.listContacts();
+  res.json({
+    status: "success",
+    code: 200,
+    contacts,
+  });
 };
 
 
