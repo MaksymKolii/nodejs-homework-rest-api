@@ -1,6 +1,6 @@
-const fs = require("fs/promises");
-const { v4: uuidv4 } = require("uuid");
-const { contactsPath } = require("../helpers");
+const fs = require('fs/promises');
+const {v4: uuidv4} = require('uuid');
+const {contactsPath} = require('../helpers');
 
 class ContactsFileHandler {
   constructor(contactsPath) {
@@ -8,7 +8,7 @@ class ContactsFileHandler {
   }
 
   async listContacts() {
-    const data = await fs.readFile(contactsPath, "utf8");
+    const data = await fs.readFile(contactsPath, 'utf8');
     const normalizeData = JSON.parse(data);
     return normalizeData;
   }
@@ -25,11 +25,12 @@ class ContactsFileHandler {
   async getContactById(contactId) {
     const stringContactId = String(contactId);
     const arr = await this.listContacts();
-    const value = arr.filter(({ id }) => id === stringContactId);
+    const [value] = arr.filter(({id}) => id === stringContactId);
 
     if (!value) {
       return null;
     }
+
     return value;
   }
 
@@ -37,11 +38,11 @@ class ContactsFileHandler {
     const normalizeData = await this.listContacts();
     const stringContactId = String(contactId);
 
-    if (!normalizeData.some(({ id }) => id === stringContactId)) {
-      console.log(`Contact with id: ${contactId} not exist`);
+    if (!normalizeData.some(({id}) => id === stringContactId)) {
+      // console.log(`Contact with id: ${contactId} not exist`);
       return null;
     }
-    const value = normalizeData.filter(({ id }) => id !== stringContactId);
+    const value = normalizeData.filter(({id}) => id !== stringContactId);
 
     await this.create(value);
     return value;
@@ -49,42 +50,42 @@ class ContactsFileHandler {
 
 
   async addContact(data) {
-    const newContact = { id: uuidv4().slice(0, 8), ...data };
-    const { name, email, phone } = data;
+    const newContact = {id: uuidv4().slice(0, 8), ...data};
+    const {name, email, phone} = data;
 
     const contacts = await this.listContacts();
 
     const checkName = () => {
       if (
         contacts.find(
-          (value) => value.name?.toLowerCase() === name.toLowerCase()
+            (value) => value.name?.toLowerCase() === name.toLowerCase(),
         )
       ) {
-        console.log(`Contact with name: ${name} already exist`);
+        // console.log(`Contact with name: ${name} already exist`);
         return true;
       }
     };
-    console.log("checkName", checkName());
+    // console.log('checkName', checkName());
 
     const checkEmail = () => {
       if (
         contacts.find(
-          (value) => value.email?.toLowerCase() === email.toLowerCase()
+            (value) => value.email?.toLowerCase() === email.toLowerCase(),
         )
       ) {
-        console.log(`Contact with email: ${email} already exist`);
+        // console.log(`Contact with email: ${email} already exist`);
         return true;
       }
     };
-    console.log("checkEmail", checkEmail());
+
 
     const checkPhone = () => {
       if (contacts.find((value) => value.phone === phone)) {
-        console.log(`Contact with phone: ${phone} already exist`);
+        // console.log(`Contact with phone: ${phone} already exist`);
         return true;
       }
     };
-    console.log("checkPhone", checkPhone());
+
 
     if (checkName() || checkEmail() || checkPhone()) {
       return null;
@@ -99,13 +100,13 @@ class ContactsFileHandler {
     const contacts = await this.listContacts();
     const stringContactId = String(contactId);
 
-    const index = contacts.findIndex(({ id }) => id === stringContactId);
+    const index = contacts.findIndex(({id}) => id === stringContactId);
 
     if (index === -1) {
       return null;
     }
 
-    contacts[index] = { ...contacts[index], ...data };
+    contacts[index] = {...contacts[index], ...data};
 
     await this.create(contacts);
 

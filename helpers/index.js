@@ -1,4 +1,4 @@
-const contactsPath = require("./contactsPath")
-const tryCatchWrapper=require("./tryCatchWrapper")
+const contactsPath = require('./contactsPath');
+const tryCatchWrapper=require('./tryCatchWrapper');
 
-module.exports = { tryCatchWrapper, contactsPath}
+module.exports = {tryCatchWrapper, contactsPath};

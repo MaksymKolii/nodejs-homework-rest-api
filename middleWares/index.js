@@ -1,2 +1,2 @@
-const validateContacts =require("./validatorJoi")
-module.exports = validateContacts
+const validateContacts =require('./validatorJoi');
+module.exports = validateContacts;

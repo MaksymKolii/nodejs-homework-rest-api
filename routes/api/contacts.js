@@ -1,22 +1,22 @@
-const express = require('express')
-const { listContacts,
+const express = require('express');
+const {listContacts,
   getContactById,
   removeContact,
   addContact,
-  updateContact}=require("../../models/contacts")
-  const {tryCatchWrapper }=require("../../helpers")
+  updateContact}=require('../../models/contacts');
+const {tryCatchWrapper}=require('../../helpers');
 
 
-const router = express.Router()
+const router = new express.Router();
 
-router.get('/', tryCatchWrapper( listContacts))
+router.get('/', tryCatchWrapper( listContacts));
 
-router.get('/:contactId', tryCatchWrapper(getContactById))
+router.get('/:contactId', tryCatchWrapper(getContactById));
 
-router.post('/', tryCatchWrapper(addContact))
+router.post('/', tryCatchWrapper(addContact));
 
-router.delete('/:contactId', tryCatchWrapper(removeContact))
+router.delete('/:contactId', tryCatchWrapper(removeContact));
 
-router.put('/:contactId', tryCatchWrapper(updateContact))
+router.put('/:contactId', tryCatchWrapper(updateContact));
 
-module.exports = router
+module.exports = router;

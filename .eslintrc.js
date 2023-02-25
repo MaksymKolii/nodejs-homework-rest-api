@@ -1,12 +1,34 @@
 module.exports = {
-  env: {
-    commonjs: true,
-    es2021: true,
-    node: true,
+  'env': {
+    'browser': true,
+    'commonjs': true,
+    'es2021': true,
   },
-  extends: ['standard', 'prettier'],
-  parserOptions: {
-    ecmaVersion: 12,
+  'extends': [
+    'google',
+  ],
+  'parserOptions': {
+    'ecmaVersion': 12,
   },
-  rules: {},
-}
+  'rules': {},
+//   "require-jsdoc": ["error", {
+//     "require": {
+//         "FunctionDeclaration": true,
+//         "MethodDefinition": true,
+//         "ClassDeclaration": true,
+//         "ArrowFunctionExpression": true,
+//         "FunctionExpression": true
+//     }
+// }],
+};
+/*eslint "require-jsdoc": ["error", {
+    "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": true
+    }
+}]*/
+
+
