@@ -1,10 +1,13 @@
-const {contactsPath} = require('../helpers');
-const ContactsFileHandler = require('../contacts');
-const file = new ContactsFileHandler(contactsPath);
+
+const { Contacts } = require("../db/schema");
+
+const ContactsHandler = require('../services/index');
+const file = new ContactsHandler(Contacts);
 const validateContacts = require('../middleWares');
 
 const listContacts = async (req, res, next) => {
-  const contacts = await file.listContacts();
+  const contacts = await file.listContacts(Contacts);
+  console.log('Contacts', contacts);
   res.json({
     status: "success",
     code: 200,
@@ -32,6 +35,7 @@ const getContactById = async (req, res, next) => {
 };
 
 
+
 const addContact = async (req, res) => {
   const {error} = validateContacts(req.body);
 
@@ -57,6 +61,7 @@ const addContact = async (req, res) => {
     });
   }
 };
+
 
 
 const updateContact = async (req, res) => {

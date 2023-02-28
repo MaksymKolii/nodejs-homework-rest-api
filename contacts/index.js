@@ -1,117 +1,116 @@
-const fs = require('fs/promises');
-const {v4: uuidv4} = require('uuid');
-const {contactsPath} = require('../helpers');
+// const fs = require("fs/promises");
+// const { v4: uuidv4 } = require("uuid");
+// const { contactsPath } = require("../helpers");
 
-class ContactsFileHandler {
-  constructor(contactsPath) {
-    this.contactsPath = contactsPath;
-  }
+// class ContactsFileHandler {
+//   constructor(contactsPath) {
+//     this.contactsPath = contactsPath;
+//   }
 
-  async listContacts() {
-    const data = await fs.readFile(contactsPath, 'utf8');
-    const normalizeData = JSON.parse(data);
-    return normalizeData;
-  }
+//   async listContacts() {
+//     const data = await fs.readFile(contactsPath, "utf8");
+//     const normalizeData = JSON.parse(data);
+//     return normalizeData;
+//   }
 
-  async display() {
-    console.table(await this.listContacts());
-  }
+//   async display() {
+//     console.table(await this.listContacts());
+//   }
 
-  async create(data) {
-    await fs.writeFile(this.contactsPath, JSON.stringify(data, null, 2));
-  }
-
-
-  async getContactById(contactId) {
-    const stringContactId = String(contactId);
-    const arr = await this.listContacts();
-    const [value] = arr.filter(({id}) => id === stringContactId);
-
-    if (!value) {
-      return null;
-    }
-
-    return value;
-  }
-
-  async removeContact(contactId) {
-    const normalizeData = await this.listContacts();
-    const stringContactId = String(contactId);
-
-    if (!normalizeData.some(({id}) => id === stringContactId)) {
-      // console.log(`Contact with id: ${contactId} not exist`);
-      return null;
-    }
-    const value = normalizeData.filter(({id}) => id !== stringContactId);
-
-    await this.create(value);
-    return value;
-  }
+//   async create(data) {
+//     await fs.writeFile(this.contactsPath, JSON.stringify(data, null, 2));
+//   }
 
 
-  async addContact(data) {
-    const newContact = {id: uuidv4().slice(0, 8), ...data};
-    const {name, email, phone} = data;
+//   async getContactById(contactId) {
+//     const stringContactId = String(contactId);
+//     const arr = await this.listContacts();
+//     const value = arr.filter(({ id }) => id === stringContactId);
 
-    const contacts = await this.listContacts();
+//     if (!value) {
+//       return null;
+//     }
+//     return value;
+//   }
 
-    const checkName = () => {
-      if (
-        contacts.find(
-            (value) => value.name?.toLowerCase() === name.toLowerCase(),
-        )
-      ) {
-        // console.log(`Contact with name: ${name} already exist`);
-        return true;
-      }
-    };
-    // console.log('checkName', checkName());
+//   async removeContact(contactId) {
+//     const normalizeData = await this.listContacts();
+//     const stringContactId = String(contactId);
 
-    const checkEmail = () => {
-      if (
-        contacts.find(
-            (value) => value.email?.toLowerCase() === email.toLowerCase(),
-        )
-      ) {
-        // console.log(`Contact with email: ${email} already exist`);
-        return true;
-      }
-    };
+//     if (!normalizeData.some(({ id }) => id === stringContactId)) {
+//       console.log(`Contact with id: ${contactId} not exist`);
+//       return null;
+//     }
+//     const value = normalizeData.filter(({ id }) => id !== stringContactId);
+
+//     await this.create(value);
+//     return value;
+//   }
 
 
-    const checkPhone = () => {
-      if (contacts.find((value) => value.phone === phone)) {
-        // console.log(`Contact with phone: ${phone} already exist`);
-        return true;
-      }
-    };
+//   async addContact(data) {
+//     const newContact = { id: uuidv4().slice(0, 8), ...data };
+//     const { name, email, phone } = data;
 
+//     const contacts = await this.listContacts();
 
-    if (checkName() || checkEmail() || checkPhone()) {
-      return null;
-    }
+//     const checkName = () => {
+//       if (
+//         contacts.find(
+//           (value) => value.name?.toLowerCase() === name.toLowerCase()
+//         )
+//       ) {
+//         console.log(`Contact with name: ${name} already exist`);
+//         return true;
+//       }
+//     };
+//     console.log("checkName", checkName());
 
-    const newArray = [...contacts, newContact];
-    await this.create(newArray);
-    return newContact;
-  }
+//     const checkEmail = () => {
+//       if (
+//         contacts.find(
+//           (value) => value.email?.toLowerCase() === email.toLowerCase()
+//         )
+//       ) {
+//         console.log(`Contact with email: ${email} already exist`);
+//         return true;
+//       }
+//     };
+//     console.log("checkEmail", checkEmail());
 
-  async updateContact(contactId, data) {
-    const contacts = await this.listContacts();
-    const stringContactId = String(contactId);
+//     const checkPhone = () => {
+//       if (contacts.find((value) => value.phone === phone)) {
+//         console.log(`Contact with phone: ${phone} already exist`);
+//         return true;
+//       }
+//     };
+//     console.log("checkPhone", checkPhone());
 
-    const index = contacts.findIndex(({id}) => id === stringContactId);
+//     if (checkName() || checkEmail() || checkPhone()) {
+//       return null;
+//     }
 
-    if (index === -1) {
-      return null;
-    }
+//     const newArray = [...contacts, newContact];
+//     await this.create(newArray);
+//     return newContact;
+//   }
 
-    contacts[index] = {...contacts[index], ...data};
+//   async updateContact(contactId, data) {
+//     const contacts = await this.listContacts();
+//     const stringContactId = String(contactId);
 
-    await this.create(contacts);
+//     const index = contacts.findIndex(({ id }) => id === stringContactId);
 
-    return contacts[index];
-  }
-}
+//     if (index === -1) {
+//       return null;
+//     }
 
-module.exports = ContactsFileHandler;
+//     contacts[index] = { ...contacts[index], ...data };
+
+//     await this.create(contacts);
+
+//     return contacts[index];
+//   }
+// }
+
+// module.exports = ContactsFileHandler;
