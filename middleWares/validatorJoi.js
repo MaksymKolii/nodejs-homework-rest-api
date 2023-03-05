@@ -1,28 +1,21 @@
 const Joi = require("joi");
 
-const validatorJoi = (schema) => (payload) =>
-  schema.validate(payload, { abortEarly: false });
 
-const contactSchema = Joi.object({
-  name: Joi.string()
-    .pattern(/^\D+\s\D+$/)
-    .trim()
-    .messages({
-      "string.pattern.base": "Must be First and Last name",
-    }),
-
-  email: Joi.string()
-    .email()
-    .trim()
-    .messages({ "string.email": "Incorrect e-mail type " }),
-
+const addContactSchema = Joi.object({
+  name: Joi.string().min(2).required(),
+  email: Joi.string().email().required(),
   phone: Joi.string()
-    .trim()
-    .pattern(/^\W+\d{3}\W+\s\d+-*\d*$/)
-    .messages({
-      "string.pattern.base": "Incorrect phone number type -(xxx) xxx-xxx",
-    }),
+    .pattern(/^\+?[\d\s()-]+$/)
+    .required(),
   favorite: Joi.boolean(),
 });
+const updateContactSchema = Joi.object({
+  name: Joi.string().min(2),
+  email: Joi.string().email(),
+  phone: Joi.string().pattern(/^\+?[\d\s()-]+$/),
+});
+const updateStatusSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
 
-module.exports = validatorJoi(contactSchema);
+module.exports = { addContactSchema, updateContactSchema, updateStatusSchema };

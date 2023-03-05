@@ -1,16 +1,24 @@
 require("dotenv").config();
-const { getConnection } = require("./db/mongoose");
+
+
+
+// const authRouter = require("./routes/auth");
+const contactsRouter = require("./routes/contacts");
+const getConnection = require("./db/connection");
+// const usersRouter = require("./routes/users");
+
 const app = require("./app");
+const { PORT } = process.env;
 
-// // const Contacts=require("./models/contacts")
+// require('./config/config-passport')
 
-getConnection()
-  .then(
-    app.listen(3030, () => {
-      console.log("Database connection successful. Use our API on port: 3030");
-    })
-  )
-  .catch((error) => {
-    console.log(`Server not running. Error message: ${error.message}`);
-    process.exit(1);
-  });
+// app.use("/api/auth", authRouter);
+app.use("/api/contacts", contactsRouter);
+// app.use("/api/users", usersRouter);
+
+app.listen(PORT, async () => {
+  await getConnection();
+  console.log("Database connection successful. Use our API on port:" + PORT);
+});
+
+
