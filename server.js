@@ -13,8 +13,9 @@ const { PORT } = process.env;
 // require('./config/config-passport')
 
 // app.use("/api/auth", authRouter);
-app.use("/api/contacts", contactsRouter);
 // app.use("/api/users", usersRouter);
+app.use("/api/contacts", contactsRouter);
+
 
 app.listen(PORT, async () => {
   await getConnection();
