@@ -1,18 +1,18 @@
-// const express = require('express');
-// const router = new express.Router();
+const express = require('express');
+const router = new express.Router();
 
-// const UsersController = require('../controllers/UsersController')
+const UsersController = require('../controllers/UsersController')
 
 
-// const ctrlContact = require('../../controllers/index')
 
-// router.get('/', UsersController.get);
 
-// router.get('/:contactId', UsersController.getById);
+router.get('/', UsersController.get);
 
-// router.post('/', UsersController.create);
+router.get('/:contactId', UsersController.getById);
 
-// router.delete('/:contactId', UsersController.remove);
+router.post('/', UsersController.create);
 
-// router.put('/:contactId', UsersController.update);
-// module.exports = router;
+router.delete('/:contactId', UsersController.remove);
+
+router.put('/:contactId', UsersController.update);
+module.exports = router;

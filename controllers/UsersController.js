@@ -1,8 +1,9 @@
-// module.exports = {
-//     get,
-//     getById,
-//     create,
-//     update,
-//     updateStatus,
-//     remove,
-//   }
+module.exports = {
+    
+    get,
+    getById,
+    create,
+    update,
+    updateStatus,
+    remove,
+  }
