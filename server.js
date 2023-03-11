@@ -1,29 +1,21 @@
-const app = require('./app')
- require("./contacts")
-// const ContactsFileHandler= require("./contacts")
+const app = require("./app");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
+const { DB_HOST, PORT } = process.env;
 
+mongoose
+    .connect(DB_HOST)
+    .then(() => {
+        console.log("\x1B[32m Database connection successful");
 
-// const path = require("path");
-// const contactsPath = path.join(__dirname,  "db", "contacts.json");
-
-
-app.listen(3030, () => {
-  console.log("Server running. Use our API on port: 3030")
-})
-
-// const file = new ContactsFileHandler(contactsPath);
-// file.display()
-// const data = {
-//   name: "Ko97bb8olb",
-//   email: "m@88is.net",
-//   phone: "(542) 4700977",
-// };
-// asyncHandler(file.removeContact("441baded"))
-  // asyncHandler(file.addContact(data))
-  // file.addContact(data)
-// asyncHandler(file.updateContact("7651da59",data))
-//  file.removeContact("924c8d71")
-// asyncHandler(file.getContactById(3))
-//  file.create(data)
-// file.display();
+        app.listen(PORT, () => {
+            console.log(
+                `\x1B[32m Server running. Use our API on port: \x1B[37m http://localhost:${PORT}`
+            );
+        });
+    })
+    .catch(() => {
+        console.log("\x1B[31mDatabase connection failed");
+        process.exit(1);
+    });

@@ -1,22 +1,45 @@
-const express = require('express')
-const { listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact}=require("../../models/contacts")
-  const {tryCatchWrapper }=require("../../helpers")
+const express = require("express");
+const {
+    validation,
+    ctrlWrapper,
+    isValidId,
+    authenticate,
+    checkUniqData,
+} = require("../../middlewares");
+const { joiContactsSchemas } = require("../../models");
+const { contactsController } = require("../../controller");
 
+const router = express.Router();
 
-const router = express.Router()
+router.get("/", authenticate, ctrlWrapper(contactsController.getAll));
 
-router.get('/', tryCatchWrapper( listContacts))
+router.get("/:contactId", authenticate, isValidId, ctrlWrapper(contactsController.getById));
 
-router.get('/:contactId', tryCatchWrapper(getContactById))
+router.post(
+    "/",
+    authenticate,
+    validation(joiContactsSchemas.contactsSchema),
+    checkUniqData,
+    ctrlWrapper(contactsController.add)
+);
 
-router.post('/', tryCatchWrapper(addContact))
+router.delete("/:contactId", authenticate, isValidId, ctrlWrapper(contactsController.remove));
 
-router.delete('/:contactId', tryCatchWrapper(removeContact))
+router.put(
+    "/:contactId",
+    authenticate,
+    isValidId,
+    validation(joiContactsSchemas.contactsSchema),
+    checkUniqData,
+    ctrlWrapper(contactsController.update)
+);
 
-router.put('/:contactId', tryCatchWrapper(updateContact))
+router.patch(
+    "/:contactId/favorite",
+    authenticate,
+    isValidId,
+    validation(joiContactsSchemas.favoriteSchema),
+    ctrlWrapper(contactsController.patch)
+);
 
-module.exports = router
+module.exports = router;
