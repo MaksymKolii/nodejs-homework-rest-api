@@ -9,6 +9,7 @@ class ContactsController {
     const data = await Contact.create({ ...body, owner: id });
     console.log('Отработал add, показываю дату', data);
     res.status(201).json({ status: "success", code: 201, data });
+
   };
 
   getAll = async (req, res) => {

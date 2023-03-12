@@ -16,10 +16,11 @@ class AuthController {
     if (!passwordCompare) {
         throw RequestError(401, "Wrong Email or password");
     }
+    
 
     const token = generateToken(user);
-    // user.token = token;
-    // await user.save();
+    user.token = token;
+    await user.save();
 
     await User.findByIdAndUpdate(user._id, { token });
     console.log('Отработал login показываю user._id', user._id);

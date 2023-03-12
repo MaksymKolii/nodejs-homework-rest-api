@@ -12,18 +12,25 @@ const { contactsController } = require("../../controller");
 const router = express.Router();
 
 router.get("/", 
-// authenticate, 
+authenticate, 
 ctrlWrapper(contactsController.getAll));
 
 router.get("/:contactId", authenticate, isValidId, ctrlWrapper(contactsController.getById));
 
-router.post(
-    "/",
+const test =async (req, res)=>{
+    res.json({message:"post"})
+}
+
+router.post("/", 
+ authenticate,
+validation(joiContactsSchemas.contactsSchema),
+checkUniqData,
+ctrlWrapper(contactsController.add))
     // authenticate,
     // validation(joiContactsSchemas.contactsSchema),
     // checkUniqData,
-    ctrlWrapper(contactsController.add)
-);
+    // ctrlWrapper(contactsController.add)
+
 
 router.delete("/:contactId", authenticate, isValidId, ctrlWrapper(contactsController.remove));
 
