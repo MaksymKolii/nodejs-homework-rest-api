@@ -9,7 +9,7 @@ const generateToken = ({ _id: id, email, subscription }) => {
         email,
         subscription,
     };
-    // console.log(SECRET_KEY);
+    console.log("Отработал generateToken", SECRET_KEY);
     return jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
 };
 

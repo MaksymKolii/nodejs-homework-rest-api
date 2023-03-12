@@ -11,15 +11,17 @@ const { contactsController } = require("../../controller");
 
 const router = express.Router();
 
-router.get("/", authenticate, ctrlWrapper(contactsController.getAll));
+router.get("/", 
+// authenticate, 
+ctrlWrapper(contactsController.getAll));
 
 router.get("/:contactId", authenticate, isValidId, ctrlWrapper(contactsController.getById));
 
 router.post(
     "/",
-    authenticate,
-    validation(joiContactsSchemas.contactsSchema),
-    checkUniqData,
+    // authenticate,
+    // validation(joiContactsSchemas.contactsSchema),
+    // checkUniqData,
     ctrlWrapper(contactsController.add)
 );
 

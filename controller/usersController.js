@@ -3,7 +3,7 @@ const { User } = require("../models");
 class UsersController {
   getCurrent = async (req, res) => {
     const { email, subscription } = req.user;
-
+    console.log('Отработал getCurrent');
     res.status(200).json({
       status: "success",
       code: 200,
@@ -21,7 +21,7 @@ class UsersController {
     const data = await User.findOneAndUpdate({ _id: id }, req.body, {
       new: true,
     });
-
+    console.log('Отработал updateSubscription показываю { id } = req.user', id);
     res.status(200).json({
       status: "success",
       code: 200,

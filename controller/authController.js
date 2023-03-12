@@ -22,6 +22,7 @@ class AuthController {
     // await user.save();
 
     await User.findByIdAndUpdate(user._id, { token });
+    console.log('Отработал login показываю user._id', user._id);
 
     res.status(200).json({
       status: "success",
@@ -40,7 +41,7 @@ class AuthController {
     const { id } = req.user;
 
     await User.findByIdAndUpdate(id, { token: null });
-
+    console.log('Отработал logout показываю { id } = req.user;', id);
     res.status(204).json();
   };
 
@@ -56,7 +57,7 @@ class AuthController {
     const newUser = new User({ email });
     newUser.setPassword(password);
     await newUser.save();
-
+    console.log('Отработал register показываю newUser', newUser);
     res.status(201).json({
       status: "success",
       code: 201,

@@ -7,6 +7,7 @@ const isValidId = (req, _, next) => {
     if (!result) {
         next(RequestError(400, "Invalid id format"));
     }
+    console.log("Отработал isValidId возвращаю contactId =",contactId);
     next();
 };
 

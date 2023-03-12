@@ -7,6 +7,7 @@ class ContactsController {
     const { id } = req.user;
 
     const data = await Contact.create({ ...body, owner: id });
+    console.log('Отработал add, показываю дату', data);
     res.status(201).json({ status: "success", code: 201, data });
   };
 
@@ -21,6 +22,7 @@ class ContactsController {
       skip,
       limit: Number(limit),
     }).populate("owner", "_id name email subscription");
+    console.log('Отработал getAll , показываю дату', data);
 
     res.status(200).json({ status: "success", code: 200, data });
   };
@@ -32,6 +34,7 @@ class ContactsController {
     if (!data) {
       throw RequestError(404, `id:${contactId} not found`);
     }
+    console.log('Отработал , показываю дату');
     res.status(200).json({ status: "success", code: 200, data });
   };
 
@@ -46,7 +49,7 @@ class ContactsController {
     if (!data) {
       throw RequestError(404, `id:${contactId} not found`);
     }
-
+    console.log('Отработал remove');
     res
       .status(200)
       .json({ status: "success", code: 200, message: "contact deleted" });
@@ -67,7 +70,7 @@ class ContactsController {
     if (!data) {
       throw RequestError(404, `id:${contactId} not found`);
     }
-
+    console.log('Отработал update , показываю дату', data);
     res.status(200).json({ status: "success", code: 200, data });
   };
 
@@ -86,7 +89,7 @@ class ContactsController {
     if (!data) {
       throw RequestError(404, `id:${contactId} not found`);
     }
-
+    console.log('Отработал patch , показываю дату', data);
     res.status(200).json({ status: "success", code: 200, data });
   };
 }

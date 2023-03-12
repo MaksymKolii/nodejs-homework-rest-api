@@ -20,6 +20,7 @@ const authenticate = async (req, _, next) => {
         }
 
         req.user = user;
+        console.log('Отработал authenticate');
         next();
     } catch (error) {
         if (error.message === "invalid signature" || error.message === "jwt expired") {
