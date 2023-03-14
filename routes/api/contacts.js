@@ -26,10 +26,7 @@ router.post("/",
 validation(joiContactsSchemas.contactsSchema),
 checkUniqData,
 ctrlWrapper(contactsController.add))
-    // authenticate,
-    // validation(joiContactsSchemas.contactsSchema),
-    // checkUniqData,
-    // ctrlWrapper(contactsController.add)
+
 
 
 router.delete("/:contactId", authenticate, isValidId, ctrlWrapper(contactsController.remove));

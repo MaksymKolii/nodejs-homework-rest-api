@@ -1,6 +1,13 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const { RequestError, generateToken } = require("../helpers");
+const { SECRET_KEY } = process.env;
+const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs = require("fs/promises");
+const avatarsDir = path.join(__dirname,"..", "public", "avatars");
+const gravatar = require('gravatar')
+const Jimp = require("jimp");
 
 class AuthController {
   login = async (req, res) => {
@@ -17,8 +24,12 @@ class AuthController {
         throw RequestError(401, "Wrong Email or password");
     }
     
-
-    const token = generateToken(user);
+    const payload = {
+      id: user._id,
+    };
+  
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+    // const token = generateToken(user);
     user.token = token;
     await user.save();
 
@@ -55,9 +66,15 @@ class AuthController {
       throw RequestError(409, "Email in use");
     }
 
-    const newUser = new User({ email });
-    newUser.setPassword(password);
+    const hashPassword = await bcrypt.hash(password, 10);
+    const avatarURL = gravatar.url(email)
+
+    const newUser = await User.create({ ...req.body, password: hashPassword, avatarURL });
+
+    // const newUser = new User({ email });
+    // newUser.setPassword(password);
     await newUser.save();
+
     console.log('Отработал register показываю newUser', newUser);
     res.status(201).json({
       status: "success",
@@ -67,5 +84,24 @@ class AuthController {
       },
     });
   };
+
+  updateAvatar=async(req, res)=>{
+    const {_id} = req.user;
+    const {path: tempUpload, originalname} = req.file;
+    //---- save with unque name
+    const extention = originalname.split(".").pop();
+    const filename = `${_id}.${extention}`;
+    //-------------
+    const resultUpload = await Jimp.read(tempUpload);
+    resultUpload.resize(250, 250).write(path.join(avatarsDir, filename));
+
+    await fs.rename(tempUpload, resultUpload);
+    const avatarURL = path.join("avatars", filename);
+    await User.findByIdAndUpdate(_id, {avatarURL});
+
+    res.json({
+        avatarURL,
+    });
+  }
 }
 module.exports = new AuthController();

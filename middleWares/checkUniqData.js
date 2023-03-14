@@ -5,7 +5,7 @@ const checkUniqData = async (req, _, next) => {
     const body = req.body;
     const { contactId } = req.params;
     const { id: userId } = req.user;
-    console.log("Отработал checkUniqData и contactId=",contactId);
+  
 
     const contactWithEmail = await Contact.findOne({ email: body.email, owner: userId });
 
@@ -19,7 +19,7 @@ const checkUniqData = async (req, _, next) => {
         next(RequestError(409, "Phone number is already exist"));
         return;
     }
-    console.log("Отработал checkUniqData и contactId=",contactId);
+    console.log("Отработал checkUniqData -contactId=",contactId);
     next();
 };
 
